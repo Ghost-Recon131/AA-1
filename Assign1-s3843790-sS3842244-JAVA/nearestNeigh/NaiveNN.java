@@ -9,16 +9,19 @@ import java.util.List;
  * 
  */
 public class NaiveNN implements NearestNeigh{
+    Point point = new Point(); // create new instance of Point class
+    ArrayList<Point> ListofPoints = new ArrayList<>(); // create arraylist to store all the points
 
     @Override
     public void buildIndex(List<Point> points) {
-        // To be implemented.
+        ListofPoints = (ArrayList<Point>) points; // Store the points in an unsorted arraylist
+        //may need more work here
     }
 
     @Override
     public List<Point> search(Point searchTerm, int k) {
         // To be implemented.
-        return new ArrayList<Point>();
+        return new ArrayList<>();
     }
 
     @Override
