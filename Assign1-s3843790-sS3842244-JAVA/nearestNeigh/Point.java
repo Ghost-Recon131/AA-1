@@ -18,6 +18,8 @@ public class Point {
     public double lat = 0;
     // longitude or y-coordinate
     public double lon = 0;
+    // distance between two points
+    public double distance = 0;
 
 
     /**
@@ -178,6 +180,16 @@ public class Point {
      */
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+    // getter For distance
+    public double getDistance(){
+        return this.distance;
+    }
+
+    // setter for distance
+    public void setDistance(double newDistance){
+        this.distance = newDistance;
     }
 
 } // end of class Point
