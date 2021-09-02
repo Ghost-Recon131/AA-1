@@ -9,14 +9,13 @@ import java.util.List;
  *
  */
 public class NaiveNN implements NearestNeigh {
-    // create new instance of Point class
-    Point point = new Point();
     // create arraylist to store all the points
     List<Point> pointsList = new ArrayList<>();
 
     @Override
     public void buildIndex(List<Point> points) {
-        pointsList = points; // copy
+        // copy
+        pointsList = points; 
     }
 
     @Override

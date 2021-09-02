@@ -195,7 +195,7 @@ public class Point {
     //get Catagory
     public Category getCategory(){
         return this.cat;
-    }  
+    }
 
     public boolean categoryIsSame(Point point){
         return this.cat == point.getCategory();

@@ -88,4 +88,7 @@ nb-configuration.xml
 sampleDataCopy.txt
 TestOutput.exp
 TestOutput2.exp
+KDTestOutput.exp
+KDTestOutput2.exp
+KDTestOutput3.exp
 
