@@ -43,16 +43,6 @@ public class Command {
         return Operation;
     }
 
-    public String getCategory() {
-        return Category;
-    }
 
-    public double getLat() {
-        return lat;
-    }
-
-    public double getLon() {
-        return lon;
-    }
 
 }
