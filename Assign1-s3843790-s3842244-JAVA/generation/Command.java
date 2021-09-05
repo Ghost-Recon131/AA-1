@@ -6,26 +6,41 @@ public class Command {
     private String Category;
     private double lat;
     private double lon;
+    private int k;
+    private int ID;
 
     public Command() {
         // Default empty constructor
     }
 
-    public Command(String Operation, String Category, double lat, double lon) {
+    //For generating Locate knn commands
+    public Command(String Operation, String Category, double lat, double lon, int k) {
         this.Operation = Operation;
+        this.Category = Category;
+        this.lat = lat;
+        this.lon = lon;
+        this.k = k;
+    }
+
+    //for generating Add / Delete / Contains commands
+    public Command(String Operation, int ID, String Category, double lat, double lon) {
+        this.Operation = Operation;
+        this.ID = ID;
         this.Category = Category;
         this.lat = lat;
         this.lon = lon;
     }
 
-    @Override
-    public String toString() {
-        return "Command{" +
-                "Operation='" + Operation + '\'' +
-                ", Category='" + Category + '\'' +
-                ", lat=" + lat +
-                ", lon=" + lon +
-                '}';
+    public String searchCommandToString() {
+        return Operation + " " + Category + " " + lat + " " + lon + " " + k;
+    }
+
+    public String actionCommandToString() {
+        return Operation + " " + ID + " " + Category + " " + lat + " " + lon;
+    }
+
+    public String getOperation(){
+        return Operation;
     }
 
 }
