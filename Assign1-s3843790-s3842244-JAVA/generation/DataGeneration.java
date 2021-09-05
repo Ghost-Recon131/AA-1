@@ -20,16 +20,20 @@ public class DataGeneration {
     private double randLon = 140.079357579;
 
     public void GenerateData(long numElements, String dataOutputFileName) {
-        for(long i=0, j = 1; i < numElements; i++ , j++){
-            Category category = Point.parseCat(getRandomCategory()); // convert the generated string result into Category
-            double min = 0.0000000001; //minimum & maximum values to add to latitude / longitude
-            double max = 0.0000000009;
-            double randomValue = min + (max - min) * random.nextDouble(); // generate value within the range
-            randLat = randLat + randomValue; // add to class wide variable so we are always ascending
-            randLon = randLon + randomValue;
+        for(long i=0; i < numElements; i++){
+            try{
+                Category category = Point.parseCat(getRandomCategory()); // convert the generated string result into Category
+                double min = 0.0000000001; //minimum & maximum values to add to latitude / longitude
+                double max = 0.0000000900;
+                double randomValue = min + (max - min) * random.nextDouble(); // generate value within the range
+                randLat = randLat + randomValue; // add to class wide variable so we are always ascending
+                randLon = randLon + randomValue;
 
-            Point point = new Point(String.valueOf(j), category, randLat, randLon);
-            randomPointsList.add(point); //add new point to arraylist
+                Point point = new Point(String.valueOf(i), category, randLat, randLon);
+                randomPointsList.add(point); //add new point to arraylist
+            }catch(Exception e){
+                System.err.println("Failed to create enum");
+            }
         }
         // Output File when data is generated
         OutputFile(dataOutputFileName);
@@ -41,7 +45,7 @@ public class DataGeneration {
 
     //Create integer array of 3 numbers, representing 3 enum values, then generate random number between 0-2 to access
     // the number at the array location, then return a Category
-    private String getRandomCategory(){
+    private String getRandomCategory() throws Exception {
         int[] Integers = new int[3];
         Integers[0] = 1;
         Integers[1] = 2;
@@ -52,7 +56,7 @@ public class DataGeneration {
             case 1 -> "RESTAURANT";
             case 2 -> "EDUCATION";
             case 3 -> "HOSPITAL";
-            default -> null;
+            default -> throw new Exception();
         };
     }
 
@@ -64,7 +68,7 @@ public class DataGeneration {
             BufferedWriter writeFileToDisk = new BufferedWriter(fileWriter);
 
             for (Point point : randomPointsList) {
-                writeFileToDisk.write(point.toString()); //converts point object to string
+                writeFileToDisk.write(point.toPrintableString()); //converts point object to string
                 writeFileToDisk.newLine(); //create new line for next output
             }
             writeFileToDisk.flush(); //take data in memory & write to disk
