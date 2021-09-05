@@ -36,11 +36,11 @@ public class RandomDataGeneration {
         switch (Scenario) {
             case 1 -> {
                 dataGeneration.GenerateData(numElements, dataOutputFileName);
-                commandGeneration.GenerateKnnSearches(commandOutputFileName);
+                commandGeneration.GenerateKnnSearches(numCommands, commandOutputFileName);
             }
             case 2 -> {
                 dataGeneration.GenerateData(numElements, dataOutputFileName);
-                commandGeneration.GenerateDynamicPointsSet(commandOutputFileName);
+                commandGeneration.GenerateDynamicPointsSet(numCommands, commandOutputFileName);
             }
         } // end of Switch Statements
 
