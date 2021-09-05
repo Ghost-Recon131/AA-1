@@ -39,7 +39,7 @@ public class DataGeneration {
         OutputFile(dataOutputFileName);
     }
 
-    public List<Point> getRandomPointsList() {
+    public static List<Point> getRandomPointsList() {
         return randomPointsList;
     }
 
