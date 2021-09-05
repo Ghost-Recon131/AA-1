@@ -199,6 +199,10 @@ public class Point {
 
     public boolean categoryIsSame(Point point){
         return this.cat == point.getCategory();
-    }  
+    }
+
+    public String toPrintableString() {
+        return "id" + id + " " + cat + " " + lat + " " + lon;
+    }
 
 } // end of class Point
