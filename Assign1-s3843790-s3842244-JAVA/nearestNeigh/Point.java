@@ -205,4 +205,11 @@ public class Point {
         return "id" + id + " " + cat + " " + lat + " " + lon;
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
 } // end of class Point
