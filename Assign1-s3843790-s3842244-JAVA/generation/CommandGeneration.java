@@ -12,18 +12,33 @@ import java.util.List;
 import java.util.Random;
 
 public class CommandGeneration {
-    List<Command> listOfCommands = new ArrayList<>();
-    DataGeneration dataGeneration = new DataGeneration();
-    private List<Point> randomPointsList = dataGeneration.getRandomPointsList(); //get list of points previously generated
+    private List<Point> randomPointsList = DataGeneration.getRandomPointsList(); //get list of points previously generated
+    private static List<Command> randomCommandList = new ArrayList<>();
+    Random random = new Random();
+    int MaxK = 20; //maximum number of neighbours to search for
 
-    public void GenerateKnnSearches(String commandOutputFileName){
-        //TODO Use this method to generate commands for scenario 1
-
+    public void GenerateKnnSearches(int numCommands, String commandOutputFileName){
+        for(int i = 0; i < numCommands; i++){
+            int location = getRandomLocation();
+            String category = randomPointsList.get(location).getCategory().toString();
+            double lat = randomPointsList.get(location).getLat();
+            double lon = randomPointsList.get(location).getLon();
+            Command command = new Command("S", category, lat, lon, getRandomKValue()); // String Operation, String Category, double lat, double lon, int k
+            randomCommandList.add(command);
+        }
+        OutputFile(commandOutputFileName);
     }
 
-    public void GenerateDynamicPointsSet(String commandOutputFileName){
+    public void GenerateDynamicPointsSet(int numCommands, String commandOutputFileName){
         //TODO Use this method to generate commands for scenario 2
+    }
 
+    private int getRandomLocation() {
+        return random.nextInt(randomPointsList.size());
+    }
+
+    private int getRandomKValue() {
+        return random.nextInt(MaxK);
     }
 
     private void OutputFile(String dataOutputFileName){
@@ -33,8 +48,12 @@ public class CommandGeneration {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writeFileToDisk = new BufferedWriter(fileWriter);
 
-            for (Command command : listOfCommands) {
-                writeFileToDisk.write(command.toString()); //converts point object to string
+            for (Command command : randomCommandList) {
+                if(command.getOperation().equals("S")){
+                    writeFileToDisk.write(command.searchCommandToString()); //converts point object to string
+                }else{
+                    writeFileToDisk.write(command.actionCommandToString()); //converts point object to string
+                }
                 writeFileToDisk.newLine(); //create new line for next output
             }
             writeFileToDisk.flush(); //take data in memory & write to disk
