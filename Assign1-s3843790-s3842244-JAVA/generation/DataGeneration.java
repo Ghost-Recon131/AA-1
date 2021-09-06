@@ -16,6 +16,7 @@ public class DataGeneration {
     private static List<Point> randomPointsList = new ArrayList<>();
     Random random = new Random();
 
+    // Starting values for latitude & longitude
     private double randLat = -39.3225797382;
     private double randLon = 140.079357579;
 
@@ -60,6 +61,7 @@ public class DataGeneration {
         };
     }
 
+    //Handles outputting the commands into a text file
     private void OutputFile(String dataOutputFileName){
         try{
             //Create necessary file writers & buffered writer to output generated data as a file
