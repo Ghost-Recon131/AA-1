@@ -18,16 +18,21 @@ public class KDTreeNN implements NearestNeigh{
 
     @Override
     public void buildIndex(List<Point> points) {
+        long startTime = System.nanoTime();
+
         if( points != null ) {
             // Loop through points and add to kdTree
             for( Point point : points ) {
                 kdTree.add( point );
             }
         }
+        long endTime = System.nanoTime();
+        System.err.println("Knn Build Index time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
     }
 
     @Override
     public List<Point> search(Point searchTerm, int k) {
+        long startTime = System.nanoTime();
 
         // Min heap to keep track of neighbours
         // Comparator definition passed as an argument
@@ -65,24 +70,39 @@ public class KDTreeNN implements NearestNeigh{
         for( int i = 0; i < k; i++ ) {
             knnList.add( priorityQueue.poll() );
         }
+        long endTime = System.nanoTime();
+        System.err.println("Knn Search time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
         return knnList;
     }
 
     @Override
     public boolean addPoint(Point point) {
+        long startTime = System.nanoTime();
         // Add point to kdTree data structure
+        long endTime = System.nanoTime();
+        System.err.println("Knn addPoint time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
         return kdTree.add( point );
     }
 
     @Override
     public boolean deletePoint(Point point) {
+        long startTime = System.nanoTime();
         // Remove point from kdTree data structure
+        long endTime = System.nanoTime();
+        System.err.println("Knn deletePoint time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
         return kdTree.delete( point );
     }
 
     @Override
     public boolean isPointIn(Point point) {
+        long startTime = System.nanoTime();
         // check if point exist in kdTree data structure
+        long endTime = System.nanoTime();
+        System.err.println("Knn isPointIn time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
         return kdTree.contains( point );
     }
 

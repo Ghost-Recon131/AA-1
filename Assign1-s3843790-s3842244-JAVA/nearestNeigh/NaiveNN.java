@@ -14,12 +14,18 @@ public class NaiveNN implements NearestNeigh {
 
     @Override
     public void buildIndex(List<Point> points) {
+        long startTime = System.nanoTime();
         // copy
-        pointsList = points; 
+        pointsList = points;
+
+        long endTime = System.nanoTime();
+        System.err.println("Naive buildIndex time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
     }
 
     @Override
     public List<Point> search(Point searchTerm, int k) {
+        long startTime = System.nanoTime();
+
         List<Point> searchedPointsList = pointsList; // ArrayList for storing points
         List<Point> sortedSearchedPointsList = new ArrayList<>(); // ArrayList for storing sorted points
 
@@ -47,38 +53,71 @@ public class NaiveNN implements NearestNeigh {
             }
         }
 
+        long endTime = System.nanoTime();
+        System.err.println("Naive search time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
         return sortedSearchedPointsList;
     }
 
     @Override
     public boolean addPoint(Point point) {
-        if (isPointIn(point)) { //check that point is not already existing, then adds it
-            return false;
+        long startTime = System.nanoTime();
+
+        boolean status;
+        if (isPointInNonTimed(point)) { //check that point is not already existing, then adds it
+            status =  false;
         } else {
             pointsList.add(point);
-            return true;
+            status = true;
         }
+        long endTime = System.nanoTime();
+        System.err.println("Naive addPoint time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
+        return status;
     }
 
     @Override
     public boolean deletePoint(Point point) { //check that point exists, then removes it
-        if (isPointIn(point)) {
-            pointsList.remove(point);
-            return true;
-        } else {
-            return false;
-        }
+        long startTime = System.nanoTime();
 
+        boolean status;
+        if (isPointInNonTimed(point)) {
+            pointsList.remove(point);
+            status =  true;
+        } else {
+            status =  false;
+        }
+        long endTime = System.nanoTime();
+        System.err.println("Naive deletePoint time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
+        return status;
     }
 
     @Override
     public boolean isPointIn(Point point) { //check that point exists in the data structure
+        long startTime = System.nanoTime();
+
+        boolean status = false;
         for (int i = 0; i < pointsList.size(); i++) {
             if (pointsList.get(i).equals(point)) {
-                return true;
+                status =  true;
             }
         }
-        return false;
+        long endTime = System.nanoTime();
+        System.err.println("Naive isPointIn time taken = " + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec");
+
+        return status;
+    }
+
+    // Used so it does not print out extra times in console, otherwise is the same code
+    public boolean isPointInNonTimed(Point point) { //check that point exists in the data structure
+        boolean status = false;
+        for (int i = 0; i < pointsList.size(); i++) {
+            if (pointsList.get(i).equals(point)) {
+                status =  true;
+            }
+        }
+        return status;
     }
 
 }
