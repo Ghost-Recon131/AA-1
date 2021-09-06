@@ -50,7 +50,7 @@ public class DataGeneration {
         Integers[0] = 1;
         Integers[1] = 2;
         Integers[2] = 3;
-        int Result = Integers[random.nextInt(2)];
+        int Result = Integers[random.nextInt(3)];
 
         return switch (Result) {
             case 1 -> "RESTAURANT";
