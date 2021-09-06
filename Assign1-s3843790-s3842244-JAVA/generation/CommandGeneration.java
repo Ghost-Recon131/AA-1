@@ -1,6 +1,4 @@
 package generation;
-
-import generation.Command;
 import nearestNeigh.Point;
 
 import java.io.BufferedWriter;
@@ -17,30 +15,72 @@ public class CommandGeneration {
     Random random = new Random();
     int MaxK = 20; //maximum number of neighbours to search for
 
+    // Used to create random commands for scenario 1
     public void GenerateKnnSearches(int numCommands, String commandOutputFileName){
         for(int i = 0; i < numCommands; i++){
             int location = getRandomLocation();
             String category = randomPointsList.get(location).getCategory().toString();
             double lat = randomPointsList.get(location).getLat();
             double lon = randomPointsList.get(location).getLon();
-            Command command = new Command("S", category, lat, lon, getRandomKValue()); // String Operation, String Category, double lat, double lon, int k
+            Command command = new Command("S", category, lat, lon, getRandomKValue());
             randomCommandList.add(command);
         }
         OutputFile(commandOutputFileName);
     }
 
-    public void GenerateDynamicPointsSet(int numCommands, String commandOutputFileName){
-        //TODO Use this method to generate commands for scenario 2
+    // Used to create random commands for scenario 2
+    public void GenerateDynamicPointsSet(int numCommands, String commandOutputFileName) {
+        try{
+            for(int i  = 0; i < numCommands; i++){
+                int location = getRandomLocation();
+                String ID = randomPointsList.get(location).getId();
+                String category = randomPointsList.get(location).getCategory().toString();
+                double lat = randomPointsList.get(location).getLat();
+                double lon = randomPointsList.get(location).getLon();
+                String Operation = getRandomOperation();
+                Command command;
+                if (Operation.equals("S")){
+                    command = new Command(Operation, category, lat, lon, getRandomKValue());
+                }else{
+                    command = new Command(Operation, ID, category, lat, lon);
+                }
+                randomCommandList.add(command);
+            }
+        }catch(Exception e){
+            System.err.println(e);
+        }
+        OutputFile(commandOutputFileName);
     }
 
+    // Picks a random point from the generated data
     private int getRandomLocation() {
         return random.nextInt(randomPointsList.size());
     }
 
+    // Creates a random operation
+    private String getRandomOperation() throws Exception {
+        int[] Integers = new int[4];
+        Integers[0] = 1;
+        Integers[1] = 2;
+        Integers[2] = 3;
+        Integers[3] = 4;
+        int Result = Integers[random.nextInt(4)];
+
+        return switch (Result) {
+            case 1 -> "A";
+            case 2 -> "D";
+            case 3 -> "C";
+            case 4 -> "S";
+            default -> throw new Exception();
+        };
+    }
+
+    // Returns a random K value to search for
     private int getRandomKValue() {
         return random.nextInt(MaxK);
     }
 
+    //Handles outputting the commands into a text file
     private void OutputFile(String dataOutputFileName){
         try{
             //Create necessary file writers & buffered writer to output generated data as a file
