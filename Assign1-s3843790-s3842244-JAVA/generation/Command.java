@@ -7,7 +7,7 @@ public class Command {
     private double lat;
     private double lon;
     private int k;
-    private int ID;
+    private String ID;
 
     public Command() {
         // Default empty constructor
@@ -23,7 +23,7 @@ public class Command {
     }
 
     //for generating Add / Delete / Contains commands
-    public Command(String Operation, int ID, String Category, double lat, double lon) {
+    public Command(String Operation, String ID, String Category, double lat, double lon) {
         this.Operation = Operation;
         this.ID = ID;
         this.Category = Category;
