@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -38,6 +39,8 @@ public class DataGeneration {
         }
         // Output File when data is generated
         OutputFile(dataOutputFileName);
+        OutputFileReverseOrder("Scenario1Data_Reverse_order.txt");
+        OutputFileRandomOrder("Scenario1Data_Random_order.txt");
     }
 
     public static List<Point> getRandomPointsList() {
@@ -61,7 +64,7 @@ public class DataGeneration {
         };
     }
 
-    //Handles outputting the commands into a text file
+    // Handles outputting the commands into a text file, list is in order
     private void OutputFile(String dataOutputFileName){
         try{
             //Create necessary file writers & buffered writer to output generated data as a file
@@ -70,6 +73,48 @@ public class DataGeneration {
             BufferedWriter writeFileToDisk = new BufferedWriter(fileWriter);
 
             for (Point point : randomPointsList) {
+                writeFileToDisk.write(point.toPrintableString()); //converts point object to string
+                writeFileToDisk.newLine(); //create new line for next output
+            }
+            writeFileToDisk.flush(); //take data in memory & write to disk
+            writeFileToDisk.close();
+        }catch(IOException e){
+            System.err.println(e);
+        }
+    }
+
+    // Reverse the arraylist so it is in reverse order
+    private void OutputFileReverseOrder(String dataOutputFileName){
+        try{
+            //Create necessary file writers & buffered writer to output generated data as a file
+            File file = new File(dataOutputFileName);
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter writeFileToDisk = new BufferedWriter(fileWriter);
+            List<Point> randomPointsListReverse;
+            randomPointsListReverse = randomPointsList;
+            Collections.reverse(randomPointsListReverse); // Create reverse list
+            for (Point point : randomPointsListReverse) {
+                writeFileToDisk.write(point.toPrintableString()); //converts point object to string
+                writeFileToDisk.newLine(); //create new line for next output
+            }
+            writeFileToDisk.flush(); //take data in memory & write to disk
+            writeFileToDisk.close();
+        }catch(IOException e){
+            System.err.println(e);
+        }
+    }
+
+    // Shuffles the arraylist so it is in random order
+    private void OutputFileRandomOrder(String dataOutputFileName){
+        try{
+            //Create necessary file writers & buffered writer to output generated data as a file
+            File file = new File(dataOutputFileName);
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter writeFileToDisk = new BufferedWriter(fileWriter);
+            List<Point> randomPointsListRandom;
+            randomPointsListRandom = randomPointsList;
+            Collections.shuffle(randomPointsListRandom); // shuffle the arraylist
+            for (Point point : randomPointsListRandom) {
                 writeFileToDisk.write(point.toPrintableString()); //converts point object to string
                 writeFileToDisk.newLine(); //create new line for next output
             }
