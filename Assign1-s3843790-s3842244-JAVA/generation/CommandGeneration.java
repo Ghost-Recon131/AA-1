@@ -42,7 +42,7 @@ public class CommandGeneration {
                 if (Operation.equals("S")){
                     command = new Command(Operation, category, lat, lon, getRandomKValue());
                 }else{
-                    command = new Command(Operation, ID, category, lat, lon);
+                    command = new Command(Operation, "id" + ID, category, lat, lon);
                 }
                 randomCommandList.add(command);
             }
