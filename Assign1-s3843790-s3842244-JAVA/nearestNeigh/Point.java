@@ -187,6 +187,10 @@ public class Point {
         return this.distance;
     }
 
+    public String getId() {
+        return id;
+    }
+
     // setter for distance
     public void setDistance(double newDistance){
         this.distance = newDistance;
