@@ -15,6 +15,7 @@ import java.util.Random;
 public class DataGeneration {
     // List of randomly generated point objects
     private static List<Point> randomPointsList = new ArrayList<>();
+    private static List<Point> additionalPointsList = new ArrayList<>();
     Random random = new Random();
 
     // Starting values for latitude & longitude
@@ -38,13 +39,17 @@ public class DataGeneration {
             }
         }
         // Output File when data is generated
-        OutputFile(dataOutputFileName);
-        OutputFileReverseOrder("Scenario1Data_Reverse_order.txt");
-        OutputFileRandomOrder("Scenario1Data_Random_order.txt");
+//        OutputFile(dataOutputFileName);
+//        OutputFileReverseOrder("Scenario1Data_Reverse_order.txt");
+        OutputFileRandomOrder(dataOutputFileName);
     }
 
     public static List<Point> getRandomPointsList() {
         return randomPointsList;
+    }
+
+    public static List<Point> getadditionalPointsList() {
+        return additionalPointsList;
     }
 
     //Create integer array of 3 numbers, representing 3 enum values, then generate random number between 0-2 to access
@@ -62,6 +67,25 @@ public class DataGeneration {
             case 3 -> "HOSPITAL";
             default -> throw new Exception();
         };
+    }
+
+    public void generateAdditionalPoints(int newID) {
+        try{
+            Category category = Point.parseCat(getRandomCategory()); // convert the generated string result into Category
+            double min = 0.0000000100; //minimum & maximum values to add to latitude / longitude
+            double max = 0.0000009000;
+            double randomValue = min + (max - min) * random.nextDouble(); // generate value within the range
+            double randLat = -30.000000000;
+            double randLon = 120.000000000;
+
+            randLat = randLat + randomValue; // add to class wide variable so we are always ascending
+            randLon = randLon + randomValue;
+
+            Point point = new Point(String.valueOf(newID), category, randLat, randLon);
+            additionalPointsList.add(point); //add new point to arraylist
+        }catch(Exception e){
+            System.err.println("Failed to create enum");
+        }
     }
 
     // Handles outputting the commands into a text file, list is in order
