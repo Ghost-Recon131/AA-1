@@ -11,68 +11,63 @@ import java.util.Random;
 
 public class CommandGeneration {
     private List<Point> randomPointsList = DataGeneration.getRandomPointsList(); //get list of points previously generated
+    private List<Point> additionalPointsList = DataGeneration.getadditionalPointsList();
     private static List<Command> randomCommandList = new ArrayList<>();
     Random random = new Random();
     int MaxK = 20; //maximum number of neighbours to search for
+    DataGeneration DG = new DataGeneration();
 
     // Used to create random commands for scenario 1
     public void GenerateKnnSearches(int numCommands, String commandOutputFileName){
-        for(int i = 0; i < numCommands; i++){
-            int location = getRandomLocation();
-            String category = randomPointsList.get(location).getCategory().toString();
-            double lat = randomPointsList.get(location).getLat();
-            double lon = randomPointsList.get(location).getLon();
-            Command command = new Command("S", category, lat, lon, getRandomKValue());
-            randomCommandList.add(command);
-        }
+        GenerateSearchCommand();
         OutputFile(commandOutputFileName);
     }
 
     // Used to create random commands for scenario 2
     public void GenerateDynamicPointsSet(int numCommands, String commandOutputFileName) {
         try{
-            for(int i  = 0; i < numCommands; i++){
+            for(int i  = 0; i < numCommands; i++){ // handles generating delete command
                 int location = getRandomLocation();
                 String ID = randomPointsList.get(location).getId();
                 String category = randomPointsList.get(location).getCategory().toString();
                 double lat = randomPointsList.get(location).getLat();
                 double lon = randomPointsList.get(location).getLon();
-                String Operation = getRandomOperation();
-                Command command;
-                if (Operation.equals("S")){
-                    command = new Command(Operation, category, lat, lon, getRandomKValue());
-                }else{
-                    command = new Command(Operation, "id" + ID, category, lat, lon);
-                }
-                randomCommandList.add(command);
+                Command deleteCommand = new Command("D", "id" + ID, category, lat, lon);
+                randomCommandList.add(deleteCommand);
+
             }
+
+            for(int i  = 0; i < numCommands; i++){ // handles generating add command
+                int newID = additionalPointsList.size() + i;
+                DG.generateAdditionalPoints(i);
+                String category = additionalPointsList.get(i).getCategory().toString();
+                double lat = additionalPointsList.get(i).getLat();
+                double lon = additionalPointsList.get(i).getLon();
+                Command addCommand = new Command("A", "id" + newID, category, lat, lon);
+                randomCommandList.add(addCommand);
+            }
+            // Generate Search Command
+            GenerateSearchCommand();
         }catch(Exception e){
             System.err.println(e);
         }
         OutputFile(commandOutputFileName);
     }
 
+    private void GenerateSearchCommand() {
+        for(int i = 2; i <= 20; i+=2){
+            int location = getRandomLocation();
+            String category = randomPointsList.get(location).getCategory().toString();
+            double lat = randomPointsList.get(location).getLat();
+            double lon = randomPointsList.get(location).getLon();
+            Command searchCommand = new Command("S", category, lat, lon, i);
+            randomCommandList.add(searchCommand);
+        }
+    }
+
     // Picks a random point from the generated data
     private int getRandomLocation() {
         return random.nextInt(randomPointsList.size());
-    }
-
-    // Creates a random operation
-    private String getRandomOperation() throws Exception {
-        int[] Integers = new int[4];
-        Integers[0] = 1;
-        Integers[1] = 2;
-        Integers[2] = 3;
-        Integers[3] = 4;
-        int Result = Integers[random.nextInt(4)];
-
-        return switch (Result) {
-            case 1 -> "A";
-            case 2 -> "D";
-            case 3 -> "C";
-            case 4 -> "S";
-            default -> throw new Exception();
-        };
     }
 
     // Returns a random K value to search for
